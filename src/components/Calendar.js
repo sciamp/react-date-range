@@ -26,6 +26,7 @@ import {
 } from 'date-fns';
 import defaultLocale from 'date-fns/locale/en-US';
 import coreStyles from '../styles';
+import Time from './Time.js';
 
 class Calendar extends PureComponent {
   constructor(props, context) {
@@ -443,26 +444,32 @@ class Calendar extends PureComponent {
             )}>
             {new Array(this.props.months).fill(null).map((_, i) => {
               const monthStep = addMonths(this.state.focusedDate, i);
+              const timeBoundType = i == 0 ? 'startTime' : 'endTime';
               return (
-                <Month
-                  {...this.props}
-                  onPreviewChange={this.props.onPreviewChange || this.updatePreview}
-                  preview={this.props.preview || this.state.preview}
-                  ranges={ranges}
-                  key={i}
-                  drag={this.state.drag}
-                  dateOptions={this.dateOptions}
-                  disabledDates={disabledDates}
-                  month={monthStep}
-                  onDragSelectionStart={this.onDragSelectionStart}
-                  onDragSelectionEnd={this.onDragSelectionEnd}
-                  onDragSelectionMove={this.onDragSelectionMove}
-                  onTimeSelection={time => console.log('>>>>>>>>>>>>>>', time)}
-                  onMouseLeave={() => onPreviewChange && onPreviewChange()}
-                  styles={this.styles}
-                  showWeekDays={!isVertical || i === 0}
-                  showMonthName={!isVertical || i > 0}
-                />
+                <React.Fragment key={i}>
+                  <Month
+                    {...this.props}
+                    onPreviewChange={this.props.onPreviewChange || this.updatePreview}
+                    preview={this.props.preview || this.state.preview}
+                    ranges={ranges}
+                    drag={this.state.drag}
+                    dateOptions={this.dateOptions}
+                    disabledDates={disabledDates}
+                    month={monthStep}
+                    onDragSelectionStart={this.onDragSelectionStart}
+                    onDragSelectionEnd={this.onDragSelectionEnd}
+                    onDragSelectionMove={this.onDragSelectionMove}
+                    onMouseLeave={() => onPreviewChange && onPreviewChange()}
+                    styles={this.styles}
+                    showWeekDays={!isVertical || i === 0}
+                    showMonthName={!isVertical || i > 0}
+                  />
+                  <Time
+                    onTimeSelection={selection =>
+                      this.props.onTimeSelection(timeBoundType, selection)
+                    }
+                  />
+                </React.Fragment>
               );
             })}
           </div>
@@ -540,6 +547,7 @@ Calendar.propTypes = {
   navigatorRenderer: PropTypes.func,
   rangeColors: PropTypes.arrayOf(PropTypes.string),
   dragSelectionEnabled: PropTypes.bool,
+  onTimeSelection: PropTypes.func,
 };
 
 export default Calendar;

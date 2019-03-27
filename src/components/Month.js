@@ -16,7 +16,6 @@ import {
   eachDayOfInterval,
 } from 'date-fns';
 import { getMonthDisplayRange } from '../utils';
-import Time from './Time.js';
 
 function renderWeekdays(styles, dateOptions) {
   const now = new Date();
@@ -103,7 +102,6 @@ class Month extends PureComponent {
             }
           )}
         </div>
-        <Time onTimeSelection={this.props.onTimeSelection} />
       </div>
     );
   }
@@ -132,7 +130,6 @@ Month.propTypes = {
   onDragSelectionEnd: PropTypes.func,
   onDragSelectionMove: PropTypes.func,
   onMouseLeave: PropTypes.func,
-  onTimeSelection: PropTypes.func,
   monthDisplayFormat: PropTypes.string,
   showWeekDays: PropTypes.bool,
   showMonthName: PropTypes.bool,
