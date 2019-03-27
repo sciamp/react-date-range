@@ -312,6 +312,7 @@ class Calendar extends PureComponent {
       this.setState({ drag: { status: false, range: {} } }, () => onChange && onChange(date));
     } else {
       this.setState({ drag: { status: false, range: {} } }, () => {
+        console.log('>>>>>>>> ', newRange);
         updateRange && updateRange(newRange);
       });
     }
@@ -415,12 +416,16 @@ class Calendar extends PureComponent {
                       onDragSelectionStart={this.onDragSelectionStart}
                       onDragSelectionEnd={this.onDragSelectionEnd}
                       onDragSelectionMove={this.onDragSelectionMove}
+                      onTimeSelection={time => console.log('>>>>>>>>>>>>>>', time)}
                       onMouseLeave={() => onPreviewChange && onPreviewChange()}
                       styles={this.styles}
                       style={
                         isVertical
                           ? { height: this.estimateMonthSize(index) }
-                          : { height: scrollArea.monthHeight, width: this.estimateMonthSize(index) }
+                          : {
+                              height: scrollArea.monthHeight,
+                              width: this.estimateMonthSize(index),
+                            }
                       }
                       showMonthName
                       showWeekDays={!isVertical}
@@ -452,6 +457,7 @@ class Calendar extends PureComponent {
                   onDragSelectionStart={this.onDragSelectionStart}
                   onDragSelectionEnd={this.onDragSelectionEnd}
                   onDragSelectionMove={this.onDragSelectionMove}
+                  onTimeSelection={time => console.log('>>>>>>>>>>>>>>', time)}
                   onMouseLeave={() => onPreviewChange && onPreviewChange()}
                   styles={this.styles}
                   showWeekDays={!isVertical || i === 0}
